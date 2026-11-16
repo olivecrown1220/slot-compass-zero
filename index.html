@@ -1,127 +1,38 @@
+
 <!doctype html>
-<html lang="ja">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Slot Compass Zero</title>
+<html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#17243a"><title>Slot Compass Zero</title>
 <style>
-*{box-sizing:border-box}
-body{margin:0;background:#101827;color:#f4f7ff;font-family:-apple-system,BlinkMacSystemFont,sans-serif}
-header{padding:22px 18px;background:#17243a}
-h1{margin:0;font-size:23px}
-small,.muted{color:#acbbd0}
-main{padding:18px 16px 95px;max-width:650px;margin:auto}
-h2{font-size:19px}
-.card{background:#1c2b43;border:1px solid #34465e;border-radius:16px;padding:16px;margin:12px 0}
-button,input,select,textarea{font:inherit}
-input,select,textarea{width:100%;padding:12px;background:#0f1a2c;color:white;border:1px solid #50627b;border-radius:10px;margin:6px 0 12px}
-textarea{min-height:75px}
-button{padding:12px 16px;border:0;border-radius:10px;background:#65cba4;color:#08281c;font-weight:700}
-button.danger{background:#6b3849;color:white}
-nav{position:fixed;bottom:0;left:0;right:0;background:#18263c;display:flex;padding:8px 2px max(10px,env(safe-area-inset-bottom));border-top:1px solid #40536d}
-nav button{flex:1;background:transparent;color:#b4c3d9;padding:8px 0;font-size:12px;font-weight:400}
-nav button.on{color:#80e1ba}
-nav span{display:block;font-size:21px}
-section{display:none}
-section.on{display:block}
-.item{border-top:1px solid #3a4c64;padding:12px 0}
-.row{display:flex;gap:8px;flex-wrap:wrap}
-.row>*{flex:1}
-label{font-size:13px;color:#c7d5e8}
-#notice{color:#8ce8be;font-size:13px}
-</style>
-</head>
-<body>
-<header><h1>🎰 Slot Compass Zero</h1><small>自分専用・無料の記録アプリ</small></header>
-<main>
-<section id="home" class="on">
-<h2>🏠 ホーム</h2>
-<div class="card"><b>今日の注目ホール</b><p class="muted">実データがそろったら分析を表示します。根拠のない予想は表示しません。</p></div>
-<div class="card"><b>営業記録</b><p id="count">0件</p><button onclick="go('import')">＋ 記録する</button></div>
-<div class="card"><b>今後のイベント</b><p class="muted">次の開発で追加予定</p></div>
-</section>
-<section id="search">
-<h2>🔍 検索</h2>
-<input id="keyword" placeholder="ホール・機種・イベント・メモで検索" oninput="render()">
-<div id="searchList" class="card"></div>
-</section>
-<section id="import">
-<h2>📷 取込・手入力</h2>
-<div class="card">
-<p class="muted">現在は手入力版。画像OCRは未対応です。</p>
-<label>営業日</label><input id="date" type="date">
-<label>ホール</label><input id="hall" placeholder="例：ワンダーランド新栄">
-<label>機種</label><input id="machine" placeholder="例：モンキーターンV">
-<label>イベント名</label><input id="event" placeholder="任意">
-<label>台番号</label><input id="number" inputmode="numeric" placeholder="任意">
-<div class="row"><div><label>G数</label><input id="games" type="number" placeholder="任意"></div><div><label>差枚</label><input id="diff" type="number" placeholder="例：-1200"></div></div>
-<label>気付き・メモ</label><textarea id="memo" placeholder="任意"></textarea>
-<button onclick="save()">記録を保存</button> <span id="notice"></span>
-</div>
-</section>
-<section id="data">
-<h2>📊 データ</h2><p class="muted">登録した記録を表示します。</p><div class="card" id="dataList"></div>
-</section>
-<section id="settings">
-<h2>⚙️ 設定</h2>
-<div class="card"><b>バックアップ</b><p class="muted">データはこの端末のブラウザ内に保存されます。消失に備えて定期的にバックアップしてください。</p>
-<button onclick="backup()">バックアップを書き出す</button>
-<p><label>バックアップから復元</label><input type="file" id="restoreFile" accept="application/json,.json" onchange="restoreData(this)"></p></div>
-<div class="card"><b>バージョン</b><p>Webテスト版 1.0</p><p class="muted">サーバー同期・OCR・AI分析は未実装。GitHubへ個人データは送信しません。</p></div>
-</section>
-</main>
-<nav>
-<button class="on" data-tab="home" onclick="go('home')"><span>🏠</span>ホーム</button>
-<button data-tab="search" onclick="go('search')"><span>🔍</span>検索</button>
-<button data-tab="import" onclick="go('import')"><span>📷</span>取込</button>
-<button data-tab="data" onclick="go('data')"><span>📊</span>データ</button>
-<button data-tab="settings" onclick="go('settings')"><span>⚙️</span>設定</button>
-</nav>
+*{box-sizing:border-box}body{margin:0;background:#101827;color:#f4f7ff;font-family:-apple-system,BlinkMacSystemFont,sans-serif}header{padding:20px 17px;background:#17243a}h1{font-size:23px;margin:0}small,.muted{color:#afbed1}main{padding:16px 15px 105px;max-width:680px;margin:auto}h2{font-size:20px}.card{background:#1c2b43;border:1px solid #34465e;border-radius:16px;padding:15px;margin:12px 0}button,input,select,textarea{font:inherit}input,textarea,select{display:block;width:100%;color:#fff;background:#101b2d;border:1px solid #61718a;border-radius:9px;padding:11px;margin:5px 0 12px}textarea{min-height:90px}button{border:0;border-radius:10px;padding:11px 13px;background:#71d9ae;color:#092b20;font-weight:700;margin:3px 2px 3px 0}button.alt{background:#344961;color:#fff}button.warn{background:#704054;color:#fff}label{font-size:13px;color:#d2dfed}.row{display:flex;gap:10px}.row>*{flex:1;min-width:0}.item{padding:12px 0;border-top:1px solid #40516b;overflow-wrap:anywhere}.item p{margin:6px 0}.item small{display:block;margin:7px 0}section{display:none}section.active{display:block}nav{position:fixed;bottom:0;left:0;right:0;background:#18263c;display:flex;border-top:1px solid #41536d;padding:6px 2px max(8px,env(safe-area-inset-bottom))}nav button{width:20%;margin:0;padding:7px 0;background:transparent;color:#b3c0d4;font-size:11px;font-weight:400}nav button.active{color:#80e1ba}nav span{display:block;font-size:20px}#status{color:#91edbc;font-size:13px}pre{white-space:pre-wrap;word-break:break-word;font-size:12px}.hint{font-size:13px;color:#b5c5d7}
+</style></head><body>
+<header><h1>🎰 Slot Compass Zero</h1><small>iPhone版 Ver.1.1｜自分専用の営業データ</small></header><main>
+<section id="home" class="active"><h2>🏠 ホーム</h2><div class="card"><b>今日の注目ホール</b><p class="muted">分析用データが集まったら、根拠のある結果を表示します。</p></div><div class="card"><b>保存した台別記録</b><h2 id="count">0件</h2><button onclick="go('import')">＋ 記録する</button></div><div class="card"><b>今後のイベント</b><p class="muted">今後追加予定です。</p></div></section>
+<section id="search"><h2>🔍 検索</h2><input id="keyword" placeholder="ホール・機種・イベント・メモ" oninput="render()"><div class="card" id="searchList"></div></section>
+<section id="import"><h2>📷 取込・手入力</h2><div class="card"><b id="formTitle">台別記録を登録</b><p class="hint">編集・一括入力もできるよ。画像OCRはまだ未対応。</p>
+<label>営業日</label><input id="date" type="date"><label>ホール</label><input id="hall" placeholder="例：ワンダーランド新栄"><label>機種</label><input id="machine" placeholder="例：甲鉄城のカバネリ"><label>イベント</label><input id="event" placeholder="任意"><label>台番号</label><input id="number" inputmode="numeric" placeholder="例：2236"><div class="row"><div><label>G数</label><input id="games" type="number" placeholder="4559"></div><div><label>差枚</label><input id="diff" type="number" placeholder="-1200"></div></div><label>気付き・メモ</label><textarea id="memo" placeholder="任意"></textarea><button onclick="saveOne()" id="saveBtn">記録を保存</button><button class="alt" onclick="resetForm()">入力をクリア</button><p id="status"></p></div>
+<div class="card"><b>複数台を一括入力</b><p class="hint">上の営業日・ホール・機種・イベントを共通で使用。下に1台ずつ「台番号,G数,差枚」の順で貼り付け。例：2236,4559,2625</p><textarea id="bulk" placeholder="2236,4559,2625&#10;2237,3800,-800&#10;2238,4100,1200"></textarea><button onclick="saveBulk()">まとめて登録</button><p class="hint">同一の営業日・ホール・機種・台番号が既にある場合は登録せず、件数を通知します。</p></div></section>
+<section id="data"><h2>📊 データ</h2><p class="muted">各記録の「編集」から後で修正できるよ。</p><div class="card" id="dataList"></div></section>
+<section id="settings"><h2>⚙️ 設定</h2><div class="card"><b>バックアップ</b><p class="hint">既存の記録は以前と同じSafari内の保存場所を使用。重要なデータはiCloud Driveなどにも保存してね。</p><button onclick="backup()">JSONを書き出す</button><label>バックアップから復元（現在の記録を置き換え）</label><input type="file" accept=".json,application/json" onchange="restoreFile(this)"></div><div class="card"><b>Ver.1.1</b><p class="hint">自動OCR、AI分析、3台並び判定、端末間同期はまだありません。Safariのデータ削除で記録が消える可能性があります。</p></div></section>
+</main><nav><button class="active" data-page="home" onclick="go('home')"><span>🏠</span>ホーム</button><button data-page="search" onclick="go('search')"><span>🔍</span>検索</button><button data-page="import" onclick="go('import')"><span>📷</span>取込</button><button data-page="data" onclick="go('data')"><span>📊</span>データ</button><button data-page="settings" onclick="go('settings')"><span>⚙️</span>設定</button></nav>
 <script>
-const KEY='slot-compass-zero-web-v1';
-let records=[];
-try{let v=JSON.parse(localStorage.getItem(KEY)||'[]');records=Array.isArray(v)?v:[]}catch(e){alert('保存データを読み込めませんでした。バックアップがあれば復元してください。')}
-const el=id=>document.getElementById(id);
-function go(id){
-document.querySelectorAll('section').forEach(x=>x.classList.toggle('on',x.id===id));
-document.querySelectorAll('nav button').forEach(x=>x.classList.toggle('on',x.dataset.tab===id));
-render();scrollTo(0,0)
-}
-function escapeText(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
-function save(){
-let hall=el('hall').value.trim(),date=el('date').value;
-if(!hall||!date){alert('営業日とホールを入力してね');return}
-let item={id:Date.now()+'-'+Math.random().toString(36).slice(2),date,hall,machine:el('machine').value.trim(),event:el('event').value.trim(),number:el('number').value.trim(),games:el('games').value,diff:el('diff').value,memo:el('memo').value.trim()};
-records.unshift(item);
-try{localStorage.setItem(KEY,JSON.stringify(records))}catch(e){records.shift();alert('保存できませんでした。保存容量を確認してね');return}
-['machine','event','number','games','diff','memo'].forEach(k=>el(k).value='');
-el('notice').textContent='保存できたよ！';render();go('data')
-}
-function render(){
-el('count').textContent=records.length+'件';
-let term=el('keyword').value.trim().toLowerCase();
-let make=r=>'<div class="item"><b>'+escapeText(r.date)+'　'+escapeText(r.hall)+'</b><p>'+escapeText(r.machine||'機種未入力')+(r.number?' / '+escapeText(r.number)+'番台':'')+'</p><small>'+escapeText(r.event||'イベント未入力')+(r.games!==''?'　'+escapeText(r.games)+'G':'')+(r.diff!==''?'　差枚 '+escapeText(r.diff):'')+'</small><p>'+escapeText(r.memo)+'</p><button class="danger" onclick="removeRecord(\''+r.id+'\')">削除</button></div>';
-el('dataList').innerHTML=records.length?records.map(make).join(''):'まだ記録がありません';
-let hits=records.filter(r=>[r.hall,r.machine,r.event,r.number,r.memo].some(v=>String(v||'').toLowerCase().includes(term)));
-el('searchList').innerHTML=hits.length?hits.map(make).join(''):'該当する記録がありません'
-}
-function removeRecord(id){
-if(!confirm('この記録を削除しますか？'))return;
-records=records.filter(r=>r.id!==id);localStorage.setItem(KEY,JSON.stringify(records));render()
-}
-function backup(){
-let blob=new Blob([JSON.stringify({app:'slot-compass-zero',version:1,records},null,2)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');
-a.href=url;a.download='slot-compass-backup.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)
-}
-async function restoreData(input){
-let f=input.files[0];if(!f)return;
-try{let obj=JSON.parse(await f.text());if(obj.app!=='slot-compass-zero'||!Array.isArray(obj.records))throw Error('形式が違います');
-if(!confirm('現在の記録をバックアップの内容で置き換えますか？'))return;
-localStorage.setItem(KEY,JSON.stringify(obj.records));records=obj.records;render();alert('復元しました')
-}catch(e){alert('復元できませんでした：'+e.message)}finally{input.value=''}
-}
-el('date').value=new Date().toLocaleDateString('sv-SE');
-render();
-</script>
-</body>
-</html>
+'use strict';
+const KEY='slot-compass-zero-web-v1',F=['date','hall','machine','event','number','games','diff','memo'];
+const $=id=>document.getElementById(id);
+let records=[],editId=null;
+try{const a=JSON.parse(localStorage.getItem(KEY)||'[]');if(!Array.isArray(a))throw Error('不正な形式');records=a}catch(e){alert('保存データを読み込めません。既存のデータを保護するため書き込みを止めます。');window.storeBroken=true}
+const safe=x=>String(x??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function persist(next){if(window.storeBroken){alert('保存領域が読み込めません。更新を中止しました。');return false}try{localStorage.setItem(KEY,JSON.stringify(next));records=next;return true}catch(e){alert('保存に失敗しました。容量やSafariの設定を確認してね。');return false}}
+function go(page){document.querySelectorAll('main section').forEach(x=>x.classList.toggle('active',x.id===page));document.querySelectorAll('nav button').forEach(x=>x.classList.toggle('active',x.dataset.page===page));render();window.scrollTo(0,0)}
+function values(){return Object.fromEntries(F.map(k=>[k,$(k).value.trim()]))}
+function validNum(s){return s===''||(/^-?\d+$/.test(s)&&Number.isSafeInteger(Number(s)))}
+function keyOf(r){return [r.date,r.hall.trim(),r.machine.trim(),r.number.trim()].join('|')}
+function resetForm(){editId=null;$('formTitle').textContent='台別記録を登録';$('saveBtn').textContent='記録を保存';F.forEach(k=>$(k).value='');$('date').value=new Date().toLocaleDateString('sv-SE');$('status').textContent=''}
+function saveOne(){let v=values();if(!v.date||!v.hall){alert('営業日とホールは必須だよ');return}if(!validNum(v.games)||!validNum(v.diff)){alert('G数と差枚は整数で入力してね');return}let item={...v,id:editId||(Date.now()+'-'+Math.random().toString(36).slice(2))};if(records.some(r=>r.id!==editId&&keyOf(r)===keyOf(item)&&v.number)){if(!confirm('同じ日付・ホール・機種・台番号の記録があるよ。重複して保存する？'))return}let next=editId?records.map(r=>r.id===editId?item:r):[item,...records];if(!persist(next))return;resetForm();go('data')}
+function editRecord(id){const r=records.find(x=>x.id===id);if(!r)return;editId=id;F.forEach(k=>$(k).value=r[k]??'');$('formTitle').textContent='記録を編集中';$('saveBtn').textContent='変更を保存';$('status').textContent='修正後、「変更を保存」を押してね';go('import')}
+function removeRecord(id){if(!confirm('この記録を削除する？取り消し機能はまだありません。'))return;persist(records.filter(r=>r.id!==id));render()}
+function saveBulk(){let v=values(),lines=$('bulk').value.split(/\r?\n/).map(x=>x.trim()).filter(Boolean);if(!v.date||!v.hall||!v.machine){alert('上の営業日・ホール・機種を入力してね');return}if(!lines.length){alert('一括入力欄にデータを貼り付けてね');return}let parsed=[],errors=[];lines.forEach((line,i)=>{let a=line.split(/[,，\t]/).map(s=>s.trim());if(a.length!==3||!/^\d+$/.test(a[0])||!validNum(a[1])||!validNum(a[2])){errors.push(i+1);return}parsed.push({...v,number:a[0],games:a[1],diff:a[2],memo:'',id:Date.now()+'-'+i+'-'+Math.random().toString(36).slice(2)})});if(errors.length){alert('入力形式に問題があります：'+errors.join(', ')+'行目。今回は保存していません。');return}const seen=new Set(records.filter(r=>r.number).map(keyOf)),add=[];let skipped=0;for(const r of parsed){let k=keyOf(r);if(seen.has(k)){skipped++;continue}seen.add(k);add.push(r)}if(!add.length){alert('登録できる新しい台がありません（重複'+skipped+'件）');return}if(!confirm(add.length+'台を登録する？'+(skipped?' 重複'+skipped+'件は除外。':'')))return;if(!persist([...add,...records]))return;$('bulk').value='';alert(add.length+'台を登録したよ！'+(skipped?' 重複'+skipped+'件は除外。':''));go('data')}
+function render(){ $('count').textContent=records.length+'件';const html=r=>'<div class="item"><b>'+safe(r.date)+' '+safe(r.hall)+'</b><p>'+safe(r.machine||'機種未入力')+(r.number?' / '+safe(r.number)+'番台':'')+'</p><small>'+safe(r.event||'イベントなし')+(r.games!==''&&r.games!=null?'　'+safe(r.games)+'G':'')+(r.diff!==''&&r.diff!=null?'　差枚 '+safe(r.diff):'')+'</small><p>'+safe(r.memo||'')+'</p><button class="alt" data-action="edit" data-id="'+safe(r.id)+'">編集</button><button class="warn" data-action="delete" data-id="'+safe(r.id)+'">削除</button></div>';$('dataList').innerHTML=records.length?records.map(html).join(''):'まだ記録はありません';const q=$('keyword').value.toLowerCase().trim(),hits=records.filter(r=>[r.date,r.hall,r.machine,r.event,r.number,r.memo].some(x=>String(x??'').toLowerCase().includes(q)));$('searchList').innerHTML=hits.length?hits.map(html).join(''):'該当する記録はありません'}
+document.addEventListener('click',e=>{let b=e.target.closest('button[data-action]');if(!b)return;let id=b.dataset.id;if(b.dataset.action==='edit')editRecord(id);else removeRecord(id)});
+function backup(){let blob=new Blob([JSON.stringify({app:'slot-compass-zero',version:1,records},null,2)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='slot-compass-backup.json';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),2000)}
+async function restoreFile(input){let f=input.files?.[0];if(!f)return;try{let obj=JSON.parse(await f.text());if(obj.app!=='slot-compass-zero'||!Array.isArray(obj.records)||!obj.records.every(r=>r&&typeof r==='object'&&typeof r.id==='string'&&typeof r.date==='string'&&typeof r.hall==='string'))throw Error('バックアップ形式が違います');if(!confirm('現在の'+records.length+'件をバックアップの'+obj.records.length+'件に置き換えます。よろしい？'))return;if(persist(obj.records)){render();alert('復元しました')}}catch(e){alert('復元できません：'+e.message)}finally{input.value=''}}
+$('date').value=new Date().toLocaleDateString('sv-SE');render();
+</script></body></html>
